@@ -103,6 +103,7 @@ module NagiosHerald
         end
 
         Mail.defaults do
+          delivery_method :smtp, address: "localhost", port: 25, ssl: false, enable_starttls_auto: false
         end
 
         mail = Mail.new({

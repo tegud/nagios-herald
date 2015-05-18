@@ -68,12 +68,8 @@ module NagiosHerald
 
         current_url = "#{image_url}"
 
-        if current_url =~ /(s(martS)?ummarize\()([^,)]+)([^\)]+\))/
-            current_url.gsub!(/(s(martS)?ummarize\()([^,)]+)([^\)]+\))/, "#{$2}")
-        end
-
-        logger.info "*** FROM **** #{image_url}"
-        logger.info "*** TO **** #{current_url}"
+        summarizeMatch = /(s(martS)?ummarize\()([^,)]+)([^\)]+\))/.match(current_url)
+        current_url.gsub!(/(s(martS)?ummarize\()([^,)]+)([^\)]+\))/, "#{summarizeMatch[3]}") unless summarizeMatch.nil?
 
         download_image(current_url, image_path)
         if show_historical

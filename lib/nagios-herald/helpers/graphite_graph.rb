@@ -65,7 +65,17 @@ module NagiosHerald
         image_uuid = SecureRandom.uuid
         image_path = "#{path}/#{image_uuid}.png"
         image_url = uri.to_s
-        download_image(image_url, image_path)
+
+        current_url = "#{image_url}"
+
+        if current_url =~ /(s(martS)?ummarize\()([^,)]+)([^\)]+\))/
+            uri.query.gsub!(/(s(martS)?ummarize\()([^,)]+)([^\)]+\))/, "#{$2}")
+        end
+
+        logger.info "*** FROM **** #{image_url}"
+        logger.info "*** TO **** #{current_url}"
+
+        download_image(current_url, image_path)
         if show_historical
           historical_image_path = "#{path}/#{image_uuid}#{@graphite_historical_lookup}.png"
           if uri.query =~ /&from/

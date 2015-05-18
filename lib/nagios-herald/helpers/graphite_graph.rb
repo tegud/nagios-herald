@@ -69,7 +69,7 @@ module NagiosHerald
         current_url = "#{image_url}"
 
         if current_url =~ /(s(martS)?ummarize\()([^,)]+)([^\)]+\))/
-            uri.query.gsub!(/(s(martS)?ummarize\()([^,)]+)([^\)]+\))/, "#{$2}")
+            current_url.gsub!(/(s(martS)?ummarize\()([^,)]+)([^\)]+\))/, "#{$2}")
         end
 
         logger.info "*** FROM **** #{image_url}"

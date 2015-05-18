@@ -102,6 +102,9 @@ module NagiosHerald
           return
         end
 
+        Mail.defaults do
+        end
+
         mail = Mail.new({
           :from  => @replyto,
           :to    => @recipients,

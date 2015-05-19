@@ -35,7 +35,7 @@ module NagiosHerald
         graphs section
       end
 
-      def elasticsearch
+      def elasticsearch(section)
         queries = get_nagios_var("NAGIOS_ELASTICSEARCH_QUERIES")
 
         split_queries = queries.split(/,/)

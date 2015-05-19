@@ -43,9 +43,9 @@ module NagiosHerald
         for query in split_queries
           split_query = queries.split(/\|/)
 
-          logging.info "*********** QUERY ************"
-          logging.info query
-          logging.info "******************************"
+          logger.info "*********** QUERY ************"
+          logger.info query
+          logger.info "******************************"
 
           add_html(section, '<b>#{split_query[0]}</b><br>')
         end

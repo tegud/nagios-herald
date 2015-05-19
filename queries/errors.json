@@ -1,0 +1,25 @@
+{
+   "query":{
+      "filtered":{
+         "filter":{
+            "bool":{
+               "must":[
+                  {
+                     "term":{
+                        "type":"lr_errors"
+                     }
+                  }
+               ]
+            }
+         }
+      }
+   },
+   "aggs":{
+      "messages":{
+         "terms":{
+            "field":"Exception.Message.raw"
+         }
+      }
+   },
+   "size":0
+}

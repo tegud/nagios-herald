@@ -108,7 +108,7 @@ module NagiosHerald
       def get_elasticsearch_results(elasticsearch_helper, query)
         begin
           if query.include?(".json")
-            elasticsearch_helper.query_from_file(query)
+            elasticsearch_helper.query_from_file("/opt/nagios-herald/queries/#{query}")
           else
             elasticsearch_helper.query_from_string(query)
           end

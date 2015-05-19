@@ -1,0 +1,25 @@
+{
+   "query":{
+      "filtered":{
+         "filter":{
+            "bool":{
+               "must":[
+                  {
+                     "term":{
+                        "type":"lr_errors"
+                     }
+                  }
+               ]
+            }
+         }
+      }
+   },
+   "aggs":{
+      "asns":{
+         "terms":{
+            "field":"organisation.asn.raw"
+         }
+      }
+   },
+   "size":0
+}

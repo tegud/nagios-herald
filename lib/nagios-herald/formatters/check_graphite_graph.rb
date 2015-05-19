@@ -29,13 +29,22 @@ module NagiosHerald
       # Returns nothing. Updates the formatter content hash.
       def additional_info
         section = __method__
+        output = get_nagios_var("NAGIOS_#{@state_type}OUTPUT")
+        # Output is formmated like: Current value: 18094.25, warn threshold: 100.0, crit threshold: 1000.0
+        add_text(section, "Additional Info:\n #{unescape_text(output)}\n\n") if output
+        output_match = output.match(/Current value: (?<current_value>[^,]*), warn threshold: (?<warn_threshold>[^,]*), crit threshold: (?<crit_threshold>[^,]*)/)
+        if output_match
+          add_html(section, "Current value: <b><font color='red'>#{output_match['current_value']}</font></b>, warn threshold: <b>#{output_match['warn_threshold']}</b>, crit threshold: <b><font color='red'>#{output_match['crit_threshold']}</font></b><br><br>")
+        else
+          add_html(section, "<b>Additional Info</b>:<br> #{output}<br><br>") if output
+        end
 
-        elasticsearch section
+        elasticsearch_section section
 
-        graphs section
+        graphs_section section
       end
 
-      def elasticsearch(section)
+      def elasticsearch_section(section)
         queries = get_nagios_var("NAGIOS_ELASTICSEARCH_QUERIES")
 
         split_queries = queries.split(/,/)
@@ -51,17 +60,7 @@ module NagiosHerald
         end
       end
 
-      def graphs(section)
-        output = get_nagios_var("NAGIOS_#{@state_type}OUTPUT")
-        # Output is formmated like: Current value: 18094.25, warn threshold: 100.0, crit threshold: 1000.0
-        add_text(section, "Additional Info:\n #{unescape_text(output)}\n\n") if output
-        output_match = output.match(/Current value: (?<current_value>[^,]*), warn threshold: (?<warn_threshold>[^,]*), crit threshold: (?<crit_threshold>[^,]*)/)
-        if output_match
-          add_html(section, "Current value: <b><font color='red'>#{output_match['current_value']}</font></b>, warn threshold: <b>#{output_match['warn_threshold']}</b>, crit threshold: <b><font color='red'>#{output_match['crit_threshold']}</font></b><br><br>")
-        else
-          add_html(section, "<b>Additional Info</b>:<br> #{output}<br><br>") if output
-        end
-
+      def graphs_section(section)
         # Get Graphite graphs.
         # Extract the Graphite URL from NAGIOS_SERVICECHECKCOMMAND
         service_check_command = get_nagios_var("NAGIOS_SERVICECHECKCOMMAND")

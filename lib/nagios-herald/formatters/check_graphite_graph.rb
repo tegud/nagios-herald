@@ -29,6 +29,29 @@ module NagiosHerald
       # Returns nothing. Updates the formatter content hash.
       def additional_info
         section = __method__
+
+        elasticsearch section
+
+        graphs section
+      end
+
+      def elasticsearch
+        queries = get_nagios_var("NAGIOS_ELASTICSEARCH_QUERIES")
+
+        split_queries = queries.split(/,/)
+
+        for query in split_queries
+          split_query = queries.split(/\|/)
+
+          logging.info "*********** QUERY ************"
+          logging.info query
+          logging.info "******************************"
+
+          add_html(section, '<b>#{split_query[0]}</b><br>')
+        end
+      end
+
+      def graphs(section)
         output = get_nagios_var("NAGIOS_#{@state_type}OUTPUT")
         # Output is formmated like: Current value: 18094.25, warn threshold: 100.0, crit threshold: 1000.0
         add_text(section, "Additional Info:\n #{unescape_text(output)}\n\n") if output

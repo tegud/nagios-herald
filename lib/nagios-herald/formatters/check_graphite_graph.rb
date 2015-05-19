@@ -56,7 +56,7 @@ module NagiosHerald
           logger.info query
           logger.info "******************************"
 
-          add_html(section, '<b>#{split_query[0]}</b><br>')
+          add_html(section, "<b>#{split_query[0]}</b><br>")
         end
       end
 

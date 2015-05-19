@@ -50,7 +50,7 @@ module NagiosHerald
         split_queries = queries.split(/,/)
 
         for query in split_queries
-          split_query = queries.split(/\|/)
+          split_query = query.split(/\|/)
 
           logger.info "*********** QUERY ************"
           logger.info query
